@@ -56,8 +56,10 @@ const HomePage: NextPage = () => {
   };
 
   const logOut = () => {
-    setUser(null);
-    setUserName("");
+    if(confirm("로그아웃 하시겠습니까?")){
+      setUser(null);
+      setUserName("");
+    }
   };
   
   useEffect(() => {
