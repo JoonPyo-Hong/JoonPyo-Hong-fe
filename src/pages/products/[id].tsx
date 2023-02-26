@@ -18,6 +18,7 @@ const ProductDetailPage: NextPage = () => {
 
   const [user,setUser]= useRecoilState(userState);
   const [userName, setUserName] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
   
   const getProduct = async () => { 
     
@@ -36,11 +37,12 @@ const ProductDetailPage: NextPage = () => {
     axios.get(`https://api.sixshop.com/users/${user}`)
     .then(function (response) {
      setUserName(response.data.data.user.name);
+     setIsLogin(true);
     })
     .catch(function (error) {
       console.log(error);
       setUserName("");
-      
+      setIsLogin(true);
     });
   }
   
@@ -59,6 +61,8 @@ const ProductDetailPage: NextPage = () => {
   useEffect(() => {
     if(user){
       getUserName();
+    }else{
+      setIsLogin(true);
     }
   }, [])
   
@@ -68,22 +72,21 @@ const ProductDetailPage: NextPage = () => {
         <Link href='/'>
           <Title>HAUS</Title>
         </Link>
-        {userName ?
+        {userName && isLogin &&
           <div>
             <p>
               {userName}
             </p>
-            <p onClick={logOut}>
+            <LoginTitle onClick={logOut}>
               logout
-            </p>
+            </LoginTitle>
           </div> 
-          : 
-          <>
+          }
+          {!userName && isLogin &&
             <Link href='/login'>
-              <p>login</p>
+              <LoginTitle>login</LoginTitle>
             </Link>
-        </>
-        }  
+          }
       </Header>
       {products ? 
         <>
@@ -112,6 +115,10 @@ const Header = styled.div`
 
 const Title = styled.a`
   font-size: 48px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Thumbnail = styled.img`
@@ -132,4 +139,10 @@ const Name = styled.div`
 const Price = styled.div`
   font-size: 18px;
   margin-top: 8px;
+`;
+
+const LoginTitle = styled.p`
+  &:hover {
+    cursor: pointer;
+  }
 `;

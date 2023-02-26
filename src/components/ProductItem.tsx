@@ -22,6 +22,10 @@ const Container = styled.a`
   width: 180px;
   margin-left: 20px;
   margin-top: 20px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Thumbnail = styled.img`

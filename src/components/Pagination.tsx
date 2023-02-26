@@ -58,6 +58,10 @@ const Button = styled.button`
     color: #e2e2ea;
     cursor: default;
   }
+
+  &:not(:disabled):hover {
+    cursor: pointer;
+  }
 `;
 
 const PageWrapper = styled.div`
@@ -81,5 +85,9 @@ const Page = styled.button<PageType>`
 
   &:disabled {
     cursor: default;
+  }
+
+  &:not(:disabled):hover {
+    cursor: pointer;
   }
 `;

@@ -17,7 +17,8 @@ const HomePage: NextPage = () => {
 
   const [user,setUser]= useRecoilState(userState);
   const [userName, setUserName] = useState("");
-  
+  const [isLogin, setIsLogin] = useState(false);
+
   const { page } = router.query;
   const [totalPage, setTotalPage] = useState(0);
 
@@ -41,15 +42,16 @@ const HomePage: NextPage = () => {
     axios.get(`https://api.sixshop.com/users/${user}`)
     .then(function (response) {
      setUserName(response.data.data.user.name);
+     setIsLogin(true);
     })
     .catch(function (error) {
       console.log(error);
       setUserName("");
-      
+      setIsLogin(true);
     });
   }
 
-  const pagebarView = () => {
+  const contentView = () => {
     if(totalPage){    
       return <div><ProductList products={product} /><Pagination totalCount={totalPage} nowPage={(page ? Number(page) : 1)} /></div>    
     }
@@ -65,6 +67,8 @@ const HomePage: NextPage = () => {
   useEffect(() => {
     if(user){
       getUserName();
+    }else{
+      setIsLogin(true);
     }
   }, [])
 
@@ -83,25 +87,24 @@ const HomePage: NextPage = () => {
         <Link href='/'>
           <Title>HAUS</Title>
         </Link>
-        {userName ?
+        {userName && isLogin &&
           <div>
             <p>
               {userName}
             </p>
-            <p onClick={logOut}>
+            <LoginTitle onClick={logOut}>
               logout
-            </p>
+            </LoginTitle>
           </div> 
-          : 
-          <>
+          }
+          {!userName && isLogin &&
             <Link href='/login'>
-              <p>login</p>
+              <LoginTitle>login</LoginTitle>
             </Link>
-        </>
-        }        
+          }
       </Header>
       <Container>
-        {pagebarView()}
+        {contentView()}
         {message && <div style={{marginTop:"10rem"}}>
           {message}
         </div>}
@@ -122,6 +125,10 @@ const Header = styled.div`
 
 const Title = styled.a`
   font-size: 48px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Container = styled.div`
@@ -129,4 +136,10 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 0 20px 40px;
+`;
+
+const LoginTitle = styled.p`
+  &:hover {
+    cursor: pointer;
+  }
 `;

@@ -91,7 +91,7 @@ const LoginPage: NextPage = () => {
           <Title>HAUS</Title>
         </Link>
         <Link href='/login'>
-          <p>login</p>
+          <LoginTitle>login</LoginTitle>
         </Link>
       </Header>
       <Form>
@@ -131,6 +131,16 @@ const Header = styled.div`
 
 const Title = styled.a`
   font-size: 48px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const LoginTitle = styled.p`
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Form = styled.div`
@@ -144,6 +154,7 @@ const TextTitle = styled.div`
  font-weight: 700px
  font-size:13px;
  color:#6C6C7D;
+ 
 `;
 
 const TextHidden = styled.div`
@@ -169,5 +180,8 @@ const LoginButton = styled.button`
 
   &:disabled {
     background-color: #e2e2ea;
+  }
+  &:not(:disabled):hover {
+    cursor: pointer;
   }
 `;
